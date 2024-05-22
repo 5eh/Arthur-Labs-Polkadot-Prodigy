@@ -2,6 +2,29 @@ import type { Config } from 'tailwindcss'
 import colors from 'tailwindcss/colors'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
+// Imported constants from styles.js
+import {
+  PRIMARY_COLOR,
+  SECONDARY_COLOR_LIGHT,
+  ACCENT_COLOR_LIGHT,
+  BASE_100_LIGHT,
+  BASE_200_LIGHT,
+  BASE_300_LIGHT,
+  SECONDARY_COLOR_DARK,
+  ACCENT_COLOR_DARK,
+  BASE_100_DARK,
+  BASE_200_DARK,
+  BASE_300_DARK,
+  SUCCESS_COLOR_LIGHT,
+  WARNING_COLOR_LIGHT,
+  ERROR_COLOR_LIGHT,
+  INFO_COLOR_LIGHT,
+  SUCCESS_COLOR_DARK,
+  WARNING_COLOR_DARK,
+  ERROR_COLOR_DARK,
+  INFO_COLOR_DARK,
+} from './src/marketplaceVariables/styles'
+
 const config: Config = {
   darkMode: ['class'],
   content: ['./src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -25,11 +48,11 @@ const config: Config = {
         background: 'hsl(var(--background) / <alpha-value>)',
         foreground: 'hsl(var(--foreground) / <alpha-value>)',
         primary: {
-          DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
+          DEFAULT: `${PRIMARY_COLOR}`,
           foreground: 'hsl(var(--primary-foreground) / <alpha-value>)',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
+          DEFAULT: `${SECONDARY_COLOR_LIGHT}`,
           foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)',
         },
         destructive: {
@@ -41,7 +64,7 @@ const config: Config = {
           foreground: 'hsl(var(--muted-foreground) / <alpha-value>)',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent) / <alpha-value>)',
+          DEFAULT: `${ACCENT_COLOR_LIGHT}`,
           foreground: 'hsl(var(--accent-foreground) / <alpha-value>)',
         },
         popover: {
@@ -52,10 +75,22 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card) / <alpha-value>)',
           foreground: 'hsl(var(--card-foreground) / <alpha-value>)',
         },
-        warning: colors.yellow[400],
-        success: colors.green[400],
-        error: colors.red[400],
-        info: colors.blue[400],
+        warning: {
+          light: `${WARNING_COLOR_LIGHT}`,
+          dark: `${WARNING_COLOR_DARK}`,
+        },
+        success: {
+          light: `${SUCCESS_COLOR_LIGHT}`,
+          dark: `${SUCCESS_COLOR_DARK}`,
+        },
+        error: {
+          light: `${ERROR_COLOR_LIGHT}`,
+          dark: `${ERROR_COLOR_DARK}`,
+        },
+        info: {
+          light: `${INFO_COLOR_LIGHT}`,
+          dark: `${INFO_COLOR_DARK}`,
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
