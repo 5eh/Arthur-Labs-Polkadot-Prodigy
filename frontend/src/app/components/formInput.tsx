@@ -8,6 +8,7 @@ import {
   useInkathon,
   useRegisteredContract,
 } from '@scio-labs/use-inkathon'
+import { DollarSign } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function FormDisplay() {
@@ -130,11 +131,7 @@ export default function FormDisplay() {
   }, [api, contract, titleMessage, descriptionMessage, photoURL])
 
   return (
-    <div>
-      <div className="mb-8 mt-8 w-fit bg-gray-400/20 pb-2 pl-2 pr-2 pt-2 text-gray-400">
-        {' '}
-        Contract: <span className="text-gray-300">{contractAddress}</span>
-      </div>
+    <div className="mt-24">
       <ul
         role="list"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -165,10 +162,19 @@ export default function FormDisplay() {
                 </p>
               </div>
             </dl>
+            <div className="mb-2 mt-2 bg-gray-400/20 pb-2 pl-2 pr-2 pt-2 text-primary">
+              Contract:{' '}
+              <span className="text-gray-300">
+                {contractAddress
+                  ? `${contractAddress.slice(0, 6)}...${contractAddress.slice(-6)}`
+                  : 'Loading...'}
+              </span>
+            </div>
           </div>
+
           <div>
             <div className="-mt-px flex divide-x divide-gray-200">
-              <div className="flex w-0 flex-1 hover:bg-gray-400/10">
+              <div className="flex w-0 flex-1 hover:bg-primary/10">
                 <a
                   href={`mailto:${contractAddress}`}
                   className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-300"
@@ -177,12 +183,11 @@ export default function FormDisplay() {
                   MESSAGE
                 </a>
               </div>
-              <div className="-ml-px flex w-0 flex-1 hover:bg-gray-400/10">
+              <div className="-ml-px flex w-0 flex-1 hover:bg-primary/10">
                 <a
                   href={`tel:${contractAddress}`}
                   className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-300"
                 >
-                  <PhoneIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                   PURCHASE
                 </a>
               </div>
