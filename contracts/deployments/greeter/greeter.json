@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x449bd3a1fda2d7f7d2c86ef05c057d657cf04880511b675afffe44b10c6ae4c3",
+    "hash": "0x192d4dcba36845979982cdb1625e7934471ff22d97bc9b9258cb87415f9f2246",
     "language": "ink! 5.0.0",
     "compiler": "rustc 1.78.0",
     "build_info": {
@@ -36,7 +36,7 @@
             "ink_primitives",
             "ConstructorResult"
           ],
-          "type": 4
+          "type": 3
         },
         "selector": "0x9bae9d5e"
       }
@@ -88,7 +88,7 @@
         "ink",
         "LangError"
       ],
-      "type": 6
+      "type": 5
     },
     "messages": [
       {
@@ -105,7 +105,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 7
+          "type": 6
         },
         "selector": "0x052cda08"
       },
@@ -121,7 +121,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 7
+          "type": 6
         },
         "selector": "0xe667d56b"
       },
@@ -137,9 +137,89 @@
             "ink",
             "MessageResult"
           ],
-          "type": 7
+          "type": 6
         },
         "selector": "0x91cbb7bc"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_photo",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 6
+        },
+        "selector": "0xa04aae5f"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_price",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0xf23d4b6c"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_quantity",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 7
+        },
+        "selector": "0x22c368a5"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_service_type",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 6
+        },
+        "selector": "0x4a68670b"
+      },
+      {
+        "args": [],
+        "default": false,
+        "docs": [],
+        "label": "get_location",
+        "mutates": false,
+        "payable": false,
+        "returnType": {
+          "displayName": [
+            "ink",
+            "MessageResult"
+          ],
+          "type": 6
+        },
+        "selector": "0xbe4fbf73"
       },
       {
         "args": [
@@ -165,7 +245,7 @@
             "ink",
             "MessageResult"
           ],
-          "type": 4
+          "type": 3
         },
         "selector": "0x1fe7426f"
       }
@@ -216,7 +296,7 @@
               "layout": {
                 "leaf": {
                   "key": "0x00000000",
-                  "ty": 2
+                  "ty": 1
                 }
               },
               "name": "quantity"
@@ -244,7 +324,7 @@
         }
       },
       "root_key": "0x00000000",
-      "ty": 3
+      "ty": 2
     }
   },
   "types": [
@@ -266,14 +346,6 @@
     },
     {
       "id": 2,
-      "type": {
-        "def": {
-          "primitive": "u16"
-        }
-      }
-    },
-    {
-      "id": 3,
       "type": {
         "def": {
           "composite": {
@@ -300,8 +372,8 @@
               },
               {
                 "name": "quantity",
-                "type": 2,
-                "typeName": "<u16 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<1470338805u32, ()>,>>::Type"
+                "type": 1,
+                "typeName": "<u128 as::ink::storage::traits::AutoStorableHint<::ink::storage\n::traits::ManualKey<1470338805u32, ()>,>>::Type"
               },
               {
                 "name": "location",
@@ -324,7 +396,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 3,
       "type": {
         "def": {
           "variant": {
@@ -332,7 +404,7 @@
               {
                 "fields": [
                   {
-                    "type": 5
+                    "type": 4
                   }
                 ],
                 "index": 0,
@@ -341,7 +413,7 @@
               {
                 "fields": [
                   {
-                    "type": 6
+                    "type": 5
                   }
                 ],
                 "index": 1,
@@ -353,11 +425,11 @@
         "params": [
           {
             "name": "T",
-            "type": 5
+            "type": 4
           },
           {
             "name": "E",
-            "type": 6
+            "type": 5
           }
         ],
         "path": [
@@ -366,7 +438,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 4,
       "type": {
         "def": {
           "tuple": []
@@ -374,7 +446,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 5,
       "type": {
         "def": {
           "variant": {
@@ -393,7 +465,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 6,
       "type": {
         "def": {
           "variant": {
@@ -410,7 +482,7 @@
               {
                 "fields": [
                   {
-                    "type": 6
+                    "type": 5
                   }
                 ],
                 "index": 1,
@@ -426,7 +498,49 @@
           },
           {
             "name": "E",
-            "type": 6
+            "type": 5
+          }
+        ],
+        "path": [
+          "Result"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "type": {
+        "def": {
+          "variant": {
+            "variants": [
+              {
+                "fields": [
+                  {
+                    "type": 1
+                  }
+                ],
+                "index": 0,
+                "name": "Ok"
+              },
+              {
+                "fields": [
+                  {
+                    "type": 5
+                  }
+                ],
+                "index": 1,
+                "name": "Err"
+              }
+            ]
+          }
+        },
+        "params": [
+          {
+            "name": "T",
+            "type": 1
+          },
+          {
+            "name": "E",
+            "type": 5
           }
         ],
         "path": [

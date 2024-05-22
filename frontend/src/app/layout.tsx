@@ -48,7 +48,9 @@ export default function RootLayout({ children }: PropsWithChildren) {
     <html lang="en" className={cn('dark', GeistSans.variable, GeistMono.variable)}>
       <body>
         <ClientProviders>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <div class="pl-8 pr-8 pt-8">{children}</div>
+          </TooltipProvider>
           <ToastConfig />
         </ClientProviders>
 
