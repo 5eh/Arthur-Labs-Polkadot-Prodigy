@@ -8,22 +8,47 @@ import { env } from '@/config/environment'
  */
 export enum ContractIds {
   Greeter = 'greeter',
+  Commerce = 'commerce',
 }
 
 export const getDeployments = async (): Promise<SubstrateDeployment[]> => {
   const networks = env.supportedChains
   const deployments: SubstrateDeployment[] = []
 
-  for (const networkId of networks) {
-    for (const contractId of Object.values(ContractIds)) {
-      const abi = await import(`@inkathon/contracts/deployments/${contractId}/${contractId}.json`)
-      const { address } = await import(
-        `@inkathon/contracts/deployments/${contractId}/${networkId}.ts`
-      )
+  // for (const networkId of networks) {
+  //   for (const contractId of Object.values(ContractIds)) {
+  //     const abi = await import(`@inkathon/contracts/deployments/${contractId}/${contractId}.json`)
+  //     const { address } = await import(
+  //       `@inkathon/contracts/deployments/${contractId}/${networkId}.ts`
+  //     )
 
-      deployments.push({ contractId, networkId, abi, address })
-    }
-  }
+  //     deployments.push({ contractId, networkId, abi, address })
+  //   }
+  // }
+
+  const abiCommerce = await import(`@inkathon/contracts/deployments/commerce/commerce.json`)
+  const { address: addressCommerce } = await import(
+    `@inkathon/contracts/deployments/commerce/development`
+  )
+
+  deployments.push({
+    contractId: 'commerce',
+    networkId: 'development',
+    abi: abiCommerce,
+    address: addressCommerce,
+  })
+
+  const abiGreeter = await import(`@inkathon/contracts/deployments/greeter/greeter.json`)
+  const { address: addressGreeter } = await import(
+    `@inkathon/contracts/deployments/greeter/development`
+  )
+
+  deployments.push({
+    contractId: 'greeter',
+    networkId: 'development',
+    abi: abiGreeter,
+    address: addressGreeter,
+  })
 
   return deployments
 }

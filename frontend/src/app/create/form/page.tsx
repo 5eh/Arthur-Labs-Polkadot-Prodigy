@@ -1,8 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { COMPANY, WEB3_FUNCTIONALITY } from '@/marketplaceVariables'
 import { PhotoIcon } from '@heroicons/react/20/solid'
@@ -119,7 +118,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   name="price"
                   id="price"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
-                  placeholder="$249"
+                  placeholder="7.2 DOT"
                 />
               </div>
               <span> In DOT </span>

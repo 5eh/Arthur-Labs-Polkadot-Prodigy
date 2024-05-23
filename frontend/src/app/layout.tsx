@@ -39,7 +39,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className={cn('dark', GeistSans.variable, GeistMono.variable)}>
       <body>
-        <header className="z-1 absolute inset-x-0 top-0 mb-2 mt-10">
+        <header className="z-1 absolute inset-x-0 top-0">
           <nav
             className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
             aria-label="Global"
@@ -51,7 +51,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
             </div>
 
             <Navbar />
-            <div className="hidden pt-24 lg:flex lg:flex-1 lg:justify-end"></div>
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end"></div>
           </nav>
         </header>
         <ClientProviders>

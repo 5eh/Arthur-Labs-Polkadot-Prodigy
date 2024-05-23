@@ -22,8 +22,8 @@ export default function Index() {
 
   return (
     <>
-      <div className="px-6 pt-14 lg:px-8">
-        <div className="mx-auto max-w-2xl pt-24 text-center sm:pt-40">
+      <div className="px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl pt-24 text-center ">
           <h2 className="text-2xl font-bold tracking-tight text-black dark:text-white sm:text-6xl">
             {INDEX_HEADING.toUpperCase()}
           </h2>

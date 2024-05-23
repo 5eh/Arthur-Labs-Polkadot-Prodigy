@@ -78,3 +78,8 @@
     @apply flex h-screen min-h-screen flex-col;
   }
 }
+
+::selection {
+  background-color: #e6007a;
+  color: white;
+}

@@ -19,8 +19,8 @@ export const menuLinks: HeaderMenuLink[] = []
 
 export const Header = () => {
   return (
-    <div className="navbar static top-0 z-20 mb-2 mt-2 flex min-h-0 flex-shrink-0 justify-between px-0 shadow-md shadow-primary sm:px-2">
-      <div className="navbar-start w-1/2">
+    <div className="navbar static top-0 z-20 mb-2 mt-2 flex min-h-0 flex-shrink-0 justify-end px-0 shadow-md shadow-primary sm:px-2">
+      <div className="navbar-start w-1/2 justify-start">
         <Link href="/" passHref className="ml-4 mr-6 flex shrink-0 items-center gap-2">
           <div className="relative flex h-12 w-12 rounded bg-black">
             <Image alt={`${MARKETPLACE_NAME} LOGO`} className="cursor-pointer" fill src={LOGO} />
@@ -31,7 +31,7 @@ export const Header = () => {
           </div>
         </Link>
       </div>
-      <div className="navbar-end flex flex-grow gap-3 pb-2">
+      <div className="navbar-end flex flex-grow justify-end gap-3 pb-2">
         <ConnectButton />
       </div>
     </div>

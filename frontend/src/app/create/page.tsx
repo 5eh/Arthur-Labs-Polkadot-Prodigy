@@ -5,7 +5,7 @@ import { FORM_SELECTION } from '@/marketplaceVariables/form'
 export default function Create() {
   return (
     <>
-      <div className="x-6 mx-auto  max-w-7xl md:pt-24 lg:px-8 lg:pt-24">
+      <div className="x-6 mx-auto max-w-7xl md:pt-24 lg:px-8">
         <div className="mx-auto mt-16 grid max-w-2xl auto-rows-fr gap-8 sm:mt-20 sm:grid-cols-2 md:grid-cols-3 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {FORM_SELECTION.map((service) => (
             <article

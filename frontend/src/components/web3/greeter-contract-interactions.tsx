@@ -15,7 +15,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import * as z from 'zod'
 
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -104,31 +103,6 @@ export const GreeterContractInteractions: FC = () => {
           </Card>
 
           {/* Update Greeting */}
-          <Card>
-            <CardContent className="pt-6">
-              <form
-                onSubmit={handleSubmit(updateGreeting)}
-                className="flex flex-col justify-end gap-2"
-              >
-                <FormItem>
-                  <FormLabel className="text-base">Update Greeting</FormLabel>
-                  <FormControl>
-                    <div className="flex gap-2">
-                      <Input disabled={form.formState.isSubmitting} {...register('newMessage')} />
-                      <Button
-                        type="submit"
-                        className="bg-primary font-bold"
-                        disabled={fetchIsLoading || form.formState.isSubmitting}
-                        isLoading={form.formState.isSubmitting}
-                      >
-                        Submit
-                      </Button>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              </form>
-            </CardContent>
-          </Card>
         </Form>
 
         {/* Contract Address */}

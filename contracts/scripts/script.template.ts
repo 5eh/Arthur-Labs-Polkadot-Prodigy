@@ -9,7 +9,7 @@ import {
 } from '@scio-labs/use-inkathon/helpers'
 
 /**
- * Example script that updates & reads a message from a greeter contract.
+ * Example script that updates & reads a message from a commerce contract.
  * Can be used as a template for other scripts.
  *
  * Parameters:
@@ -24,16 +24,16 @@ const main = async () => {
   const { api, account } = await initPolkadotJs()
 
   // Deploy greeter contract
-  const { abi, wasm } = await getDeploymentData('greeter')
+  const { abi, wasm } = await getDeploymentData('commerce')
   const { address } = await deployContract(api, account, abi, wasm, 'default', [])
   const contract = new ContractPromise(api, abi, address)
 
   // Update message
   try {
     await contractTx(api, account, contract, 'set_message', {}, ['Hello, script!'])
-    console.log('\nSuccessfully updated greeting')
+    console.log('\nSuccessfully updated commerce')
   } catch (error) {
-    console.error('Error while updating greeting', error)
+    console.error('Error while updating commerce', error)
   }
 
   // Read message

@@ -24,7 +24,6 @@ import { AiOutlineCheckCircle, AiOutlineDisconnect } from 'react-icons/ai'
 import { FiChevronDown, FiExternalLink } from 'react-icons/fi'
 import { RiArrowDownSLine } from 'react-icons/ri'
 
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -73,15 +72,14 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            className="h-12 gap-2 rounded-2xl border border-white/10 bg-primary px-4 py-3 font-bold text-foreground"
+          <button
+            className="h-fit gap-2 border border-white/10 bg-primary px-4 py-3 font-bold text-foreground"
             isLoading={isConnecting}
             disabled={isConnecting}
             translate="no"
           >
             Connect Wallet
-            <RiArrowDownSLine size={20} aria-hidden="true" />
-          </Button>
+          </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[14rem]">
           {!activeAccount &&
@@ -117,11 +115,8 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
     <div className="flex select-none flex-wrap items-stretch justify-center gap-4">
       {/* Account Name, Address, and AZERO.ID-Domain (if assigned) */}
       <DropdownMenu>
-        <DropdownMenuTrigger
-          asChild
-          className="rounded-2xl bg-gray-900 px-4 py-6 font-bold text-foreground"
-        >
-          <Button className="min-w-[14rem] border" translate="no">
+        <DropdownMenuTrigger asChild className=" bg-gray-900 px-4 py-3 font-bold text-foreground">
+          <button className="min-w-[14rem] border" translate="no">
             <div className="flex items-center justify-between gap-2">
               <div className="flex flex-col items-center justify-center">
                 <AccountName account={activeAccount} />
@@ -134,11 +129,11 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
               </div>
               <FiChevronDown className="shrink-0" size={22} aria-hidden="true" />
             </div>
-          </Button>
+          </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="no-scrollbar max-h-[40vh] min-w-[14rem] overflow-scroll rounded-2xl"
+          className=" no-scrollbar max-h-[40vh] min-w-[14rem] overflow-scroll"
         >
           {/* Supported Chains */}
           {supportedChains.map((chain) => (
@@ -154,7 +149,7 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
               <div className="flex w-full items-center justify-between gap-2">
                 <p>{chain.name}</p>
                 {chain.network === activeChain?.network && (
-                  <AiOutlineCheckCircle className="shrink-0" size={15} />
+                  <AiOutlineCheckCircle className="shrink-0 text-primary" size={15} />
                 )}
               </div>
             </DropdownMenuItem>
@@ -181,7 +176,7 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
                     <p className="text-xs">{truncatedEncodedAddress}</p>
                   </div>
                   {acc.address === activeAccount?.address && (
-                    <AiOutlineCheckCircle className="shrink-0" size={15} />
+                    <AiOutlineCheckCircle className="shrink-0 text-primary" size={15} />
                   )}
                 </div>
               </DropdownMenuItem>
@@ -201,7 +196,7 @@ export const ConnectButton: FC<ConnectButtonProps> = () => {
 
       {/* Account Balance */}
       {reducibleBalanceFormatted !== undefined && (
-        <div className="flex min-w-[10rem] items-center justify-center gap-2 rounded-2xl border bg-gray-900 px-4 py-3 font-mono text-sm font-bold text-foreground">
+        <div className="flex min-w-[10rem] items-center justify-center gap-2  border bg-gray-900  font-mono text-sm font-bold text-foreground">
           {reducibleBalanceFormatted}
           {(!reducibleBalance || reducibleBalance?.isZero()) && (
             <Tooltip>

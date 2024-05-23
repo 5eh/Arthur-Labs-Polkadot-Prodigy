@@ -13,7 +13,7 @@ import toast from 'react-hot-toast'
 
 export default function FormDisplay() {
   const { api } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
   const [titleMessage, setTitleMessage] = useState<string>('')
   const [descriptionMessage, setDescriptionMessage] = useState<string>('')
   const [photoURL, setPhotoURL] = useState<string>('')
@@ -36,7 +36,7 @@ export default function FormDisplay() {
       setTitleMessage('')
     } finally {
       setFetchIsLoading(false)
-      console.log('Greeter message:', titleMessage)
+      console.log('Commerce message:', titleMessage)
     }
   }
 
@@ -131,7 +131,7 @@ export default function FormDisplay() {
   }, [api, contract, titleMessage, descriptionMessage, photoURL])
 
   return (
-    <div className="mt-24">
+    <div className="x-6 mx-auto  max-w-7xl md:pt-24 lg:px-8 lg:pt-24">
       <ul
         role="list"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
