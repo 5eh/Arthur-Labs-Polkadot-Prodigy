@@ -3,17 +3,6 @@ import { initPolkadotJs } from '@/utils/initPolkadotJs'
 import { writeContractAddresses } from '@/utils/writeContractAddresses'
 import { deployContract } from '@scio-labs/use-inkathon/helpers'
 
-/**
- * Script that deploys the commerce contract and writes its address to a file.
- *
- * Parameters:
- *  - `DIR`: Directory to read contract build artifacts & write addresses to (optional, defaults to `./deployments`)
- *  - `CHAIN`: Chain ID (optional, defaults to `development`)
- *
- * Example usage:
- *  - `pnpm run deploy`
- *  - `CHAIN=alephzero-testnet pnpm run deploy`
- */
 const main = async () => {
   const initParams = await initPolkadotJs()
   const { api, chain, account } = initParams
@@ -21,13 +10,14 @@ const main = async () => {
   // Deploy commerce contract
   const { abi, wasm } = await getDeploymentData('commerce')
 
-  const listingTitle = 'Titlee'
-  const listingDescription = 'Descriptionn'
-  const listingPhoto = 'PhotoURLL'
-  const listingPrice = '10000'
-  const listingQuantity = '10'
-  const listingLocation = 'Locationn'
-  const listingServiceType = 'ServiceTypee'
+  const listingTitle = 'Polkadot DOT Heavy Blend Hoodie Sweatshirt | Crypto'
+  const listingDescription =
+    'This heavy blend hooded sweatshirt is relaxation itself. Made with a thick blend of cotton and polyester, it feels plush, soft and warm, a perfect choice for any cold day. '
+  const listingPhoto = 'https://i.ebayimg.com/images/g/~FAAAOSwy8xlP6TQ/s-l1600.webp'
+  const listingPrice = '7'
+  const listingQuantity = '100'
+  const listingLocation = 'Austin Texas'
+  const listingServiceType = 'Luxury'
 
   const commerce = await deployContract(api, account, abi, wasm, 'new', [
     listingTitle,

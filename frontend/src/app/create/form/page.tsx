@@ -13,7 +13,7 @@ import {
   useRegisteredContract,
 } from '@scio-labs/use-inkathon'
 
-import { useStore } from '@/app/store/store'
+import useStore from '@/app/store/store'
 
 export default function Form() {
   const searchParams = useSearchParams() || new URLSearchParams()
@@ -122,7 +122,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                 className="w-full border border-gray-200/20 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:text-gray-300"
                 placeholder="Super cool information about this elegant, if not enchanting dress."
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(event) => setFormData('description', event.target.value)}
               />
             </div>
             <div className="col-span-full">
@@ -166,7 +166,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="7.2 DOT"
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  onChange={(event) => setFormData('price', event.target.value)}
                 />
               </div>
               <span> In DOT </span>
@@ -187,7 +187,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   placeholder="Soft fabric, easy to wash"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.includedFeatureOne}
-                  onChange={(e) => setFormData({ ...formData, includedFeatureOne: e.target.value })}
+                  onChange={(event) => setFormData('includedFeatureOne', event.target.value)}
                 />
               </div>
             </div>
@@ -209,7 +209,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   placeholder="Elegant design, perfect for parties"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.includedFeatureTwo}
-                  onChange={(e) => setFormData({ ...formData, includedFeatureTwo: e.target.value })}
+                  onChange={(event) => setFormData('includedFeatureTwo', event.target.value)}
                 />
               </div>
             </div>

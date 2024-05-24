@@ -3,6 +3,7 @@
 #[ink::contract]
 mod commerce {
     use ink::prelude::string::String;
+    use ink::prelude::vec::Vec;
     use ink::storage::Mapping;
 
     #[ink(storage)]
@@ -15,6 +16,7 @@ mod commerce {
         location: String,
         service_type: String,
         delivery_addresses: Mapping<AccountId, String>,
+        my_block_data: Vec<u8>,
     }
 
     impl Commerce {
@@ -37,6 +39,7 @@ mod commerce {
                 location,
                 service_type,
                 delivery_addresses: Mapping::default(),
+                my_block_data: Vec::new(),
             }
         }
 
