@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://i.ibb.co/jJwDjDq/image-2024-05-06-105734553.png" alt="logo" />
+<img src="https://i.ibb.co/Ns3sqt1/Screenshot-2024-05-24-at-2-41-40-PM.png" alt="logo" />
 </div>
 
 <h3 align="center">CLODA DOT</h3>
