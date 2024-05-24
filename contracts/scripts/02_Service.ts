@@ -7,35 +7,32 @@ const main = async () => {
   const initParams = await initPolkadotJs()
   const { api, chain, account } = initParams
 
-  // Deploy commerce contract
+  // Deploy service contract
   const { abi, wasm } = await getDeploymentData('service')
 
-  const listingTitle = 'Polkadot DOT Heavy Blend Hoodie Sweatshirt | Crypto'
-  const listingDescription =
-    'This heavy blend hooded sweatshirt is relaxation itself. Made with a thick blend of cotton and polyester, it feels plush, soft and warm, a perfect choice for any cold day. '
-  const listingPhoto = 'https://i.ebayimg.com/images/g/~FAAAOSwy8xlP6TQ/s-l1600.webp'
-  const listingPrice = '7'
-  const listingQuantity = '100'
-  const listingLocation = 'Austin Texas'
-  const listingServiceType = 'Luxury'
+  const title = 'Task Service'
+  const description = 'Description of the task service'
+  const photo = 'https://example.com/photo.jpg'
+  const price = '100000' // Ensure this is a string that can be converted to u128
+  const quantity = '10'
+  const location = 'New York, USA'
+  const serviceType = 'Service Type'
+  const termsAndConditions = 'Terms and conditions text'
+  const requirements = 'Requirements text'
+  const completionDate = '2024-12-31'
 
-  const commerce = await deployContract(api, account, abi, wasm, 'new', [
-    listingTitle,
-    listingDescription,
-    listingPhoto,
-    listingPrice,
-    listingQuantity,
-    listingLocation,
-    listingServiceType,
+  const service = await deployContract(api, account, abi, wasm, 'new', [
+    title,
+    description,
+    photo,
+    price,
+    quantity,
+    location,
+    serviceType,
+    termsAndConditions,
+    requirements,
+    completionDate,
   ])
-
-  // title: String,
-  // description: String,
-  // photo: String,
-  // price: u128,
-  // quantity: u128,
-  // location: String,
-  // service_type: String,
 
   // Write contract addresses to `{contract}/{network}.ts` file(s)
   await writeContractAddresses(chain.network, {
