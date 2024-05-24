@@ -25,7 +25,7 @@
 
 ### Patch Changes
 
-- [#55](https://github.com/scio-labs/inkathon/pull/55) [`6b7ea5d`](https://github.com/scio-labs/inkathon/commit/6b7ea5de1e425242fd4811dbc85898f64ceb069f) Thanks [@peetzweg](https://github.com/peetzweg)! - allow postinstall to work with new contracts instead of only packaged greeter
+- [#55](https://github.com/scio-labs/inkathon/pull/55) [`6b7ea5d`](https://github.com/scio-labs/inkathon/commit/6b7ea5de1e425242fd4811dbc85898f64ceb069f) Thanks [@peetzweg](https://github.com/peetzweg)! - allow postinstall to work with new contracts instead of only packaged commerce
 
 ## 0.5.0
 
@@ -45,7 +45,7 @@
 
 ### Patch Changes
 
-- [`14e8e11`](https://github.com/scio-labs/inkathon/commit/14e8e11ebc857e81b7cfa97e7c3c7f28d8dbccc3) Thanks [@wottpal](https://github.com/wottpal)! - Add sample code snippets from live workshops (greeter message reversion & make-it-rain script)
+- [`14e8e11`](https://github.com/scio-labs/inkathon/commit/14e8e11ebc857e81b7cfa97e7c3c7f28d8dbccc3) Thanks [@wottpal](https://github.com/wottpal)! - Add sample code snippets from live workshops (commerce message reversion & make-it-rain script)
 
 ## 0.4.0
 

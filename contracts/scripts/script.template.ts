@@ -23,7 +23,7 @@ import {
 const main = async () => {
   const { api, account } = await initPolkadotJs()
 
-  // Deploy greeter contract
+  // Deploy commerce contract
   const { abi, wasm } = await getDeploymentData('commerce')
   const { address } = await deployContract(api, account, abi, wasm, 'default', [])
   const contract = new ContractPromise(api, abi, address)
