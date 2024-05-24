@@ -33,12 +33,11 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     includedFeatureTwo: '',
   })
 
+  // Handle submit and bring the formData into the contract and map out information
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(formData)
   }
-
-  // FUNCTION TO BRING INTO SMART CONTRACT
 
   const [city, setCity] = useState('')
   const [state, setState] = useState('')

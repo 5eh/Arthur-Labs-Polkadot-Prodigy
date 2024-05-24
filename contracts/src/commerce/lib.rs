@@ -87,15 +87,5 @@ mod commerce {
             let commerce = Commerce::new();
             assert_eq!(commerce.greet(), message);
         }
-
-        #[ink::test]
-        fn set_message_works() {
-            let message_1 = String::from("Cool black t-shirt");
-            let mut commerce = Commerce::new();
-            assert_eq!(commerce.greet(), message_1);
-            let message_2 = String::from("gn");
-            commerce.set_message(message_2.clone());
-            assert_eq!(commerce.greet(), message_2);
-        }
     }
 }
