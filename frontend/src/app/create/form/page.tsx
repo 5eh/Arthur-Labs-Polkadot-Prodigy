@@ -1,12 +1,19 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { ContractIds } from '@/deployments/deployments'
 import { COMPANY, WEB3_FUNCTIONALITY } from '@/marketplaceVariables'
 import { PhotoIcon } from '@heroicons/react/20/solid'
+import {
+  contractQuery,
+  decodeOutput,
+  useInkathon,
+  useRegisteredContract,
+} from '@scio-labs/use-inkathon'
 
-import { Upcharge } from '@/components/Types/userListingData'
+import { useStore } from '@/app/store/store'
 
 export default function Form() {
   const searchParams = useSearchParams() || new URLSearchParams()
@@ -20,21 +27,29 @@ export default function Form() {
 }
 
 function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
+  // Polkadot Start
+  const { api } = useInkathon()
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
+  const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
+  // Polkadot End
+  const { formData, setFormData, resetFormData } = useStore()
   const [city, setCity] = useState('')
   const [state, setState] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [upcharges, setUpcharges] = useState<Upcharge[]>([])
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    photo:
-      'https://images.unsplash.com/photo-1560996024-466726bfddaa?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    price: '',
-    includedFeatureOne: '',
-    includedFeatureTwo: '',
-    serviceType: serviceTitle || 'custom',
-    location: '',
-  })
+
+  useEffect(() => {
+    resetFormData({
+      title: '',
+      description: '',
+      photo:
+        'https://images.unsplash.com/photo-1560996024-466726bfddaa?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      price: '',
+      includedFeatureOne: '',
+      includedFeatureTwo: '',
+      serviceType: serviceTitle || 'custom',
+      location: '',
+    })
+  }, [serviceTitle, resetFormData])
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
@@ -44,14 +59,14 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
       ...formData,
     }
 
-    console.log('Comepled Listing Data', completeData)
+    console.log('Completed Listing Data', completeData)
   }
 
   const mergeLocations = (locations: string[]) => {
     return locations.join(', ')
   }
 
-  const handleLocationChange = (field, value) => {
+  const handleLocationChange = (field: string, value: string) => {
     if (field === 'city') {
       setCity(value)
       setFormData((prevData) => ({
@@ -67,23 +82,6 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     }
   }
 
-  const addUpcharge = () => {
-    setUpcharges([...upcharges, { upcharge: '', value: '' }])
-  }
-
-  const updateUpchargeValue = (index, value, field) => {
-    const updatedValue = field === 'value' ? Number(value) : value
-    const updatedUpcharges = upcharges.map((item, i) =>
-      i === index ? { ...item, [field]: updatedValue } : item,
-    )
-    setUpcharges(updatedUpcharges)
-  }
-
-  const deleteUpcharge = (index: number) => {
-    const newUpcharges = [...upcharges]
-    newUpcharges.splice(index, 1)
-    setUpcharges(newUpcharges)
-  }
   return (
     <form onSubmit={handleSubmit}>
       <div className="space-y-12">
@@ -105,7 +103,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="Elegant Pink Dress with polkadots"
                   value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  onChange={(event) => setFormData('title', event.target.value)}
                 />
               </div>
             </div>
