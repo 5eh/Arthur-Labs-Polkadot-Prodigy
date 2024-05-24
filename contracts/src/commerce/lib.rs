@@ -3,21 +3,6 @@
 #[ink::contract]
 mod commerce {
     use ink::prelude::string::String;
-    use ink::prelude::vec::Vec;
-
-    pub struct FormInput {
-        title: String,
-        description: String,
-        photo: String,
-        price: u128,
-        quantity: u128,
-        location: String,
-        service_type: String,
-    }
-
-    pub struct Something {
-        price: u8,
-    }
 
     #[ink(storage)]
     pub struct Commerce {
@@ -28,25 +13,22 @@ mod commerce {
         quantity: u128,
         location: String,
         service_type: String,
-        my_array: Vec<Something>,
     }
 
     impl Commerce {
         #[ink(constructor)]
         pub fn new() -> Self {
             Self {
-                title: String::from("Cool Commerce"),
+                title: String::from("Cool Black T-Shirt"),
                 description: String::from("Commerce cool tshirt!"),
                 photo: String::from("https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
                 price: 100000,
                 quantity: 10,
-                location: String::from("Austin, Texas"),
+                location: String::from("Houston, Texas"),
                 service_type: String::from("Clothing"),
-                my_array: Vec::new(),
             }
         }
 
-        /// Returns the current value of `message`.
         #[ink(message)]
         pub fn greet(&self) -> String {
             self.title.clone()

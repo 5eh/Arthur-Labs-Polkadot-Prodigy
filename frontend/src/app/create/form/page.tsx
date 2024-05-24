@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 
 import { COMPANY, WEB3_FUNCTIONALITY } from '@/marketplaceVariables'
 import { PhotoIcon } from '@heroicons/react/20/solid'
+import { title } from 'process'
 
 import { Upcharge } from '@/components/Types/userListingData'
 
@@ -22,6 +23,45 @@ export default function Form() {
 function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [upcharges, setUpcharges] = useState<Upcharge[]>([])
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    photo:
+      'https://images.unsplash.com/photo-1560996024-466726bfddaa?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    price: '',
+    includedFeatureOne: '',
+    includedFeatureTwo: '',
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(formData)
+  }
+
+  // FUNCTION TO BRING INTO SMART CONTRACT
+
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+
+  const mergeLocations = (locations: string[]) => {
+    return locations.join(', ')
+  }
+
+  const handleLocationChange = (field, value) => {
+    if (field === 'city') {
+      setCity(value)
+      setFormData((prevData) => ({
+        ...prevData,
+        location: mergeLocations([value, state]),
+      }))
+    } else if (field === 'state') {
+      setState(value)
+      setFormData((prevData) => ({
+        ...prevData,
+        location: mergeLocations([city, value]),
+      }))
+    }
+  }
 
   const addUpcharge = () => {
     setUpcharges([...upcharges, { upcharge: '', value: '' }])
@@ -41,7 +81,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     setUpcharges(newUpcharges)
   }
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="space-y-12">
         <div className="border-b border-white/10 pb-12">
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -59,7 +99,9 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   id="title"
                   autoComplete="title"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
-                  placeholder="Monstera Deliciosa"
+                  placeholder="Elegant Pink Dress with polkadots"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 />
               </div>
             </div>
@@ -76,7 +118,9 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                 name="description"
                 rows={3}
                 className="w-full border border-gray-200/20 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:text-gray-300"
-                placeholder="This tropical plant is known for its unique, hole-punched leaves and low maintenance requirements. Ideal for indoor spaces as it thrives in indirect light and requires watering only once a week."
+                placeholder="Super cool information about this elegant, if not enchanting dress."
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               />
             </div>
             <div className="col-span-full">
@@ -119,6 +163,8 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   id="price"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="7.2 DOT"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 />
               </div>
               <span> In DOT </span>
@@ -136,8 +182,10 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   name="includedFeatureOne"
                   id="includedFeatureOne"
                   autoComplete="given-name"
-                  placeholder="Air purifying"
+                  placeholder="Soft fabric, easy to wash"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  value={formData.includedFeatureOne}
+                  onChange={(e) => setFormData({ ...formData, includedFeatureOne: e.target.value })}
                 />
               </div>
             </div>
@@ -156,8 +204,10 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   type="text"
                   name="includedFeatureTwo"
                   id="includedFeatureTwo"
-                  placeholder="Low light tolerant"
+                  placeholder="Elegant design, perfect for parties"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  value={formData.includedFeatureTwo}
+                  onChange={(e) => setFormData({ ...formData, includedFeatureTwo: e.target.value })}
                 />
               </div>
             </div>
@@ -181,6 +231,8 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   placeholder="Austin"
                   autoComplete="address-level2"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  value={city}
+                  onChange={(e) => handleLocationChange('city', e.target.value)}
                 />
               </div>
             </div>
@@ -200,221 +252,11 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   autoComplete="address-level1"
                   placeholder="Texas"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  value={state}
+                  onChange={(e) => handleLocationChange('state', e.target.value)}
                 />
               </div>
             </div>
-          </div>
-        </div>
-
-        <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-white">
-          EXTRA CONFIGURATION
-        </h2>
-
-        <div className="border-b border-white/10 pb-12">
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2">
-            <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-400">
-                EMAIL NOTIFICATIONS
-              </legend>
-              <div className="mt-6 space-y-6">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="emailPurchase"
-                      name="emailPurchase"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-white/10 bg-white/5 text-primary/60 focus:ring-primary/60 focus:ring-offset-gray-900"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="emailPurchase"
-                      className="font-medium text-gray-900 dark:text-white"
-                    >
-                      Immediate purchase
-                    </label>
-                    <p className="text-gray-400">
-                      Get notified when someone purchases your service.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="emailMessage"
-                      name="emailMessage"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-white/10 bg-white/5 text-primary/60 focus:ring-primary/60 focus:ring-offset-gray-900"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="emailMessage"
-                      className="font-medium text-gray-900 dark:text-white"
-                    >
-                      Messages
-                    </label>
-                    <p className="text-gray-400">
-                      Get notified when someone messages you for this service.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-400">
-                PHONE NOTIFICATIONS
-              </legend>
-              <div className="mt-6 space-y-6">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="phonePurchase"
-                      name="phonePurchase"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-white/10 bg-white/5 text-primary/60 focus:ring-primary/60 focus:ring-offset-gray-900"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="phonePurchase"
-                      className="font-medium text-gray-900 dark:text-white"
-                    >
-                      Immediate purchase
-                    </label>
-                    <p className="text-gray-400">
-                      Get notified when someone purchases your service.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="phoneMessage"
-                      name="phoneMessage"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-white/10 bg-white/5 text-primary/60 focus:ring-primary/60 focus:ring-offset-gray-900"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="phoneMessage"
-                      className="font-medium text-gray-900 dark:text-white"
-                    >
-                      Messages
-                    </label>
-                    <p className="text-gray-400">
-                      Get notified when someone messages you for this service.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-400">
-                QUANTITY OF SERVICE
-              </legend>
-              <div className="mt-6 space-y-6">
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center">
-                    <input
-                      id="quantityOfService"
-                      name="quantityOfService"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-white/10 bg-white/5 text-primary/60 focus:ring-primary/60 focus:ring-offset-gray-900"
-                    />
-                  </div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="quantityOfService"
-                      className="font-medium text-gray-900 dark:text-white"
-                    >
-                      Unlimited
-                    </label>
-                    <p className="text-gray-400">
-                      Your listings will remain public until you delete the post.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="relative flex gap-x-3">
-                  <div className="flex h-6 items-center"></div>
-                  <div className="text-sm leading-6">
-                    <label
-                      htmlFor="quantityOfService"
-                      className="font-medium text-gray-900 dark:text-white"
-                    >
-                      QUANTITY
-                    </label>
-                    <input
-                      type="number"
-                      id="quantityOfService"
-                      name="quantityOfService"
-                      min="1"
-                      max="9999"
-                      step="1"
-                      className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
-                      placeholder="Enter quantity"
-                    />
-                    <p className="mt-2 text-gray-400">Available quantity.</p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="text-sm font-semibold leading-6 text-gray-400">
-                PREMIUM UPCHARGES TO THIS LISTING <span className="text-gray-500">(OPTIONAL)</span>
-              </legend>
-              <div className="mt-6 space-y-6">
-                {upcharges.map((item, index) => (
-                  <div key={index} className="relative flex items-center gap-x-1">
-                    <input
-                      type="text"
-                      value={item.upcharge}
-                      onChange={(e) => updateUpchargeValue(index, e.target.value, 'upcharge')}
-                      className="w-full border border-gray-200/20 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-300 hover:border-primary/60 focus:border-primary/60 focus:bg-gray-700/20 focus:outline-none"
-                      placeholder="Extra product half off"
-                    />
-
-                    <div className="relative flex-1">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <span className="text-gray-300 sm:text-sm">WEI</span>
-                      </div>
-                      <input
-                        type="number"
-                        value={item.value}
-                        onChange={(e) => updateUpchargeValue(index, e.target.value, 'value')}
-                        className="border border-gray-200/20 bg-gray-500/20 px-3 py-2 text-right text-sm leading-6 text-gray-300 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none"
-                        placeholder=""
-                      />
-                      {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                        <span className="text-gray-500 sm:text-sm" id={`price-currency-${index}`}>
-                          USD
-                        </span>
-                      </div> */}
-                    </div>
-
-                    <button
-                      type="button"
-                      className="text-gray-900 dark:text-white dark:hover:text-primary/40"
-                      onClick={() => deleteUpcharge(index)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  className="text-gray-900 dark:text-white"
-                  onClick={addUpcharge}
-                >
-                  CREATE UPCHARGE
-                </button>
-              </div>
-            </fieldset>
           </div>
         </div>
       </div>
@@ -423,6 +265,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
         {WEB3_FUNCTIONALITY && (
           <button
             type="button"
+            onClick={handleSubmit}
             className={`border border-gray-800 bg-gray-400 px-3  py-2  text-right text-sm font-semibold text-black hover:border-primary dark:border-gray-200/20 dark:bg-gray-500/20 dark:text-gray-300 dark:hover:border-primary/60
               ${isSubmitting ? 'bg-gray-700/20' : 'focus:border-primary/40 focus:bg-gray-700/20'}
               focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
