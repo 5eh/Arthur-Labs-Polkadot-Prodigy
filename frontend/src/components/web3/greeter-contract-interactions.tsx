@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { zodResolver } from '@hookform/resolvers/zod'
-// import GreeterContract from '@inkathon/contracts/typed-contracts/contracts/greeter'
+// import CommerceContract from '@inkathon/contracts/typed-contracts/contracts/commerce'
 import {
   contractQuery,
   decodeOutput,
@@ -24,11 +24,11 @@ const formSchema = z.object({
   newMessage: z.string().min(1).max(90),
 })
 
-export const GreeterContractInteractions: FC = () => {
+export const CommerceContractInteractions: FC = () => {
   const { api, activeAccount, activeSigner } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
-  // const { typedContract } = useRegisteredTypedContract(ContractIds.Greeter, GreeterContract)
-  const [greeterMessage, setGreeterMessage] = useState<string>()
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
+  // const { typedContract } = useRegisteredTypedContract(ContractIds.Commerce, CommerceContract)
+  const [commerceMessage, setCommerceMessage] = useState<string>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,11 +45,11 @@ export const GreeterContractInteractions: FC = () => {
       const result = await contractQuery(api, '', contract, 'greet')
       const { output, isError, decodedOutput } = decodeOutput(result, contract, 'greet')
       if (isError) throw new Error(decodedOutput)
-      setGreeterMessage(output)
+      setCommerceMessage(output)
     } catch (e) {
       console.error(e)
       toast.error('Error while fetching greeting. Try again…')
-      setGreeterMessage(undefined)
+      setCommerceMessage(undefined)
     } finally {
       setFetchIsLoading(false)
     }
@@ -94,7 +94,7 @@ export const GreeterContractInteractions: FC = () => {
                 <FormLabel className="text-base">Fetched Greeting</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={fetchIsLoading || !contract ? 'Loading…' : greeterMessage}
+                    placeholder={fetchIsLoading || !contract ? 'Loading…' : commerceMessage}
                     disabled={true}
                   />
                 </FormControl>

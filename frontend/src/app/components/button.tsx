@@ -12,7 +12,7 @@ import toast from 'react-hot-toast'
 
 export default function Button() {
   const { api } = useInkathon()
-  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Greeter)
+  const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
   const [titleMessage, setTitleMessage] = useState<string>()
   const [descriptionMessage, setDescriptionMessage] = useState<string>()
@@ -32,7 +32,7 @@ export default function Button() {
       setTitleMessage(undefined)
     } finally {
       setFetchIsLoading(false)
-      console.log('Greeter message:', titleMessage)
+      console.log('Commerce message:', titleMessage)
     }
   }
 
@@ -51,7 +51,7 @@ export default function Button() {
       setDescriptionMessage(undefined)
     } finally {
       setFetchIsLoading(false)
-      console.log('Greeter description:', descriptionMessage)
+      console.log('Commerce description:', descriptionMessage)
     }
   }
 

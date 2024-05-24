@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 
 import { COMPANY, WEB3_FUNCTIONALITY } from '@/marketplaceVariables'
 import { PhotoIcon } from '@heroicons/react/20/solid'
-import { title } from 'process'
 
 import { Upcharge } from '@/components/Types/userListingData'
 
@@ -21,6 +20,8 @@ export default function Form() {
 }
 
 function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [upcharges, setUpcharges] = useState<Upcharge[]>([])
   const [formData, setFormData] = useState({
@@ -31,16 +32,20 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     price: '',
     includedFeatureOne: '',
     includedFeatureTwo: '',
+    serviceType: serviceTitle || 'custom',
+    location: '',
   })
 
-  // Handle submit and bring the formData into the contract and map out information
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formData)
-  }
+  const handleSubmit = async (event: any) => {
+    event.preventDefault()
+    setIsSubmitting(true)
 
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
+    const completeData = {
+      ...formData,
+    }
+
+    console.log('Comepled Listing Data', completeData)
+  }
 
   const mergeLocations = (locations: string[]) => {
     return locations.join(', ')

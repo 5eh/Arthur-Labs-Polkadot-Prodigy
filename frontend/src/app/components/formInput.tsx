@@ -8,7 +8,6 @@ import {
   useInkathon,
   useRegisteredContract,
 } from '@scio-labs/use-inkathon'
-import { DollarSign } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function FormDisplay() {
@@ -55,7 +54,7 @@ export default function FormDisplay() {
       setDescriptionMessage('')
     } finally {
       setFetchIsLoading(false)
-      console.log('Greeter description:', descriptionMessage)
+      console.log('Commerce description:', descriptionMessage)
     }
   }
 
@@ -74,7 +73,7 @@ export default function FormDisplay() {
       setPhotoURL('')
     } finally {
       setFetchIsLoading(false)
-      console.log('Greeter Photo:', photoURL)
+      console.log('Commerce Photo:', photoURL)
     }
   }
 
