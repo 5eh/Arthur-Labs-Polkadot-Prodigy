@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 const useStore = create((set) => ({
   formData: {
-    title: '',
+    title: 'iuuih',
     description: '',
     photo: '',
     price: '',

@@ -9,12 +9,11 @@ import { PhotoIcon } from '@heroicons/react/20/solid'
 import { useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
 import { Toaster, toast } from 'react-hot-toast'
 
-import useStore from '@/app/store/store'
 import createListing from '@/components/Types/createListing'
 
 export default function Form() {
   const searchParams = useSearchParams()
-  const serviceTitle = searchParams.get('title') || '' // Ensure serviceTitle is a string
+  const serviceTitle = searchParams.get('title') || 'Custom'
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
@@ -25,27 +24,29 @@ export default function Form() {
 }
 
 function FormInput({ serviceTitle }: { serviceTitle: string }) {
-  // Ensure serviceTitle is a string
   const { api } = useInkathon()
   const router = useRouter()
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
-  const { formData, setFormData, resetFormData } = useStore()
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    photo:
+      'https://images.unsplash.com/photo-1560996024-466726bfddaa?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    price: '',
+    includedFeatureOne: '',
+    includedFeatureTwo: '',
+    serviceType: serviceTitle,
+    location: '',
+  })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    resetFormData({
-      title: '',
-      description: '',
-      photo:
-        'https://images.unsplash.com/photo-1560996024-466726bfddaa?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      price: '',
-      includedFeatureOne: '',
-      includedFeatureTwo: '',
+    setFormData((prevData) => ({
+      ...prevData,
       serviceType: serviceTitle,
-      location: '',
-    })
-  }, [serviceTitle, resetFormData])
+    }))
+  }, [serviceTitle])
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
@@ -93,7 +94,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string }) {
                   name="title"
                   id="title"
                   autoComplete="title"
-                  className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  className="w-full border-b border-gray-900 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="Elegant Pink Dress with polkadots"
                   value={formData.title}
                   onChange={(event) => setFormData({ ...formData, title: event.target.value })}
@@ -156,7 +157,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string }) {
                   type="number"
                   name="price"
                   id="price"
-                  className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  className="w-full border-b border-gray-900 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="7.2 DOT"
                   value={formData.price}
                   onChange={(event) => setFormData({ ...formData, price: event.target.value })}
@@ -178,7 +179,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string }) {
                   id="includedFeatureOne"
                   autoComplete="given-name"
                   placeholder="Soft fabric, easy to wash"
-                  className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  className="w-full border-b border-gray-900 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.includedFeatureOne}
                   onChange={(event) =>
                     setFormData({ ...formData, includedFeatureOne: event.target.value })
@@ -202,7 +203,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string }) {
                   name="includedFeatureTwo"
                   id="includedFeatureTwo"
                   placeholder="Elegant design, perfect for parties"
-                  className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  className="w-full border-b border-gray-900 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.includedFeatureTwo}
                   onChange={(event) =>
                     setFormData({ ...formData, includedFeatureTwo: event.target.value })
@@ -229,7 +230,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string }) {
                   id="city"
                   placeholder="Austin"
                   autoComplete="address-level2"
-                  className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
+                  className="w-full border-b border-gray-900 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.location}
                   onChange={(event) => setFormData({ ...formData, location: event.target.value })}
                 />
@@ -244,7 +245,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string }) {
           <button
             type="button"
             onClick={handleSubmit}
-            className={`border border-gray-800 bg-gray-400 px-3  py-2  text-right text-sm font-semibold text-black hover:border-primary dark:border-gray-200/20 dark:bg-gray-500/20 dark:text-gray-300 dark:hover:border-primary/60
+            className={`border border-gray-800 bg-gray-400 px-3 py-2 text-right text-sm font-semibold text-black hover:border-primary dark:border-gray-200/20 dark:bg-gray-500/20 dark:text-gray-300 dark:hover:border-primary/60
               ${isSubmitting ? 'bg-gray-700/20' : 'focus:border-primary/40 focus:bg-gray-700/20'}
               focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
               focus-visible:outline-primary/50`}

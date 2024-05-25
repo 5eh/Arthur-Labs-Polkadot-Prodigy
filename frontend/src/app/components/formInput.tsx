@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/20/solid'
@@ -16,146 +16,83 @@ export default function Listings() {
   const { api } = useInkathon()
   const [listingsData, setListingsData] = useState([])
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
-  const [titleMessage, setTitleMessage] = useState<string>('')
-  const [descriptionMessage, setDescriptionMessage] = useState<string>('')
-  const [photoURL, setPhotoURL] = useState<string>('')
-  const [priceMessage, setPriceMessage] = useState<string>('')
-  const [locationMessage, setLocationMessage] = useState<string>('')
-  const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
+  const [messages, setMessages] = useState({
+    title: '',
+    description: '',
+    photo: '',
+    price: '',
+    location: '',
+  })
+  const [fetchIsLoading, setFetchIsLoading] = useState(false)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedListingsData = await listings()
-        setListingsData(fetchedListingsData)
-      } catch (e) {
-        console.error(e)
-      }
+  const fetchData = useCallback(async () => {
+    try {
+      const fetchedListingsData = await listings()
+      setListingsData(fetchedListingsData)
+    } catch (e) {
+      console.error(e)
     }
-
-    fetchData()
   }, [])
 
-  const fetchTitle = async () => {
-    if (!contract || !api) return
+  const fetchMessage = useCallback(
+    async (messageType, queryMethod) => {
+      if (!contract || !api) return
 
-    setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'get_title')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'get_title')
-      if (isError) throw new Error(decodedOutput)
-      setTitleMessage(output)
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching title. Try again…')
-      setTitleMessage('')
-    } finally {
-      setFetchIsLoading(false)
-    }
-  }
+      setFetchIsLoading(true)
+      try {
+        const result = await contractQuery(api, '', contract, queryMethod)
+        const { output, isError, decodedOutput } = decodeOutput(result, contract, queryMethod)
+        if (isError) throw new Error(decodedOutput)
+        setMessages((prev) => ({ ...prev, [messageType]: output }))
+      } catch (e) {
+        console.error(e)
+        toast.error(`Error while fetching ${messageType}. Try again…`)
+        setMessages((prev) => ({ ...prev, [messageType]: '' }))
+      } finally {
+        setFetchIsLoading(false)
+      }
+    },
+    [contract, api],
+  )
 
-  const fetchDescription = async () => {
-    if (!contract || !api) return
-
-    setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'get_description')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'get_description')
-      if (isError) throw new Error(decodedOutput)
-      setDescriptionMessage(output)
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching description. Try again…')
-      setDescriptionMessage('')
-    } finally {
-      setFetchIsLoading(false)
-    }
-  }
-
-  const fetchPhoto = async () => {
-    if (!contract || !api) return
-
-    setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'get_photo')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'get_photo')
-      if (isError) throw new Error(decodedOutput)
-      setPhotoURL(output)
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching photo URL. Try again…')
-      setPhotoURL('')
-    } finally {
-      setFetchIsLoading(false)
-    }
-  }
-
-  const fetchPrice = async () => {
-    if (!contract || !api) return
-
-    setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'get_price')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'get_price')
-      if (isError) throw new Error(decodedOutput)
-      setPriceMessage(output)
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching price. Try again…')
-      setPriceMessage('')
-    } finally {
-      setFetchIsLoading(false)
-    }
-  }
-
-  const fetchLocation = async () => {
-    if (!contract || !api) return
-
-    setFetchIsLoading(true)
-    try {
-      const result = await contractQuery(api, '', contract, 'get_location')
-      const { output, isError, decodedOutput } = decodeOutput(result, contract, 'get_location')
-      if (isError) throw new Error(decodedOutput)
-      setLocationMessage(output)
-    } catch (e) {
-      console.error(e)
-      toast.error('Error while fetching photo URL. Try again…')
-      setLocationMessage('')
-    } finally {
-      setFetchIsLoading(false)
-    }
-  }
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!titleMessage || !descriptionMessage || !photoURL) {
-        fetchTitle()
-        fetchDescription()
-        fetchPhoto()
-        fetchPrice()
-        fetchLocation()
-      }
+      fetchMessage('title', 'get_title')
+      fetchMessage('description', 'get_description')
+      fetchMessage('photo', 'get_photo')
+      fetchMessage('price', 'get_price')
+      fetchMessage('location', 'get_location')
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [api, contract, titleMessage, descriptionMessage, photoURL])
+  }, [fetchMessage])
 
   useEffect(() => {
-    if (titleMessage && descriptionMessage && photoURL) {
+    if (messages.title && messages.description && messages.photo) {
       const newListing = {
-        title: titleMessage,
-        description: descriptionMessage,
-        photoURL,
-        price: priceMessage,
-        location: locationMessage,
+        title: messages.title,
+        description: messages.description,
+        photo: messages.photo,
+        price: messages.price,
+        location: messages.location,
         contractAddress,
       }
-
-      setListingsData((prevListings) => [...prevListings, newListing])
+      setListingsData((prevListings) => {
+        // Avoid adding duplicate listings
+        const isDuplicate = prevListings.some(
+          (listing) =>
+            listing.title === newListing.title &&
+            listing.description === newListing.description &&
+            listing.photo === newListing.photo,
+        )
+        return isDuplicate ? prevListings : [...prevListings, newListing]
+      })
     }
-  }, [titleMessage, descriptionMessage, photoURL, priceMessage, locationMessage, contractAddress])
-
-  console.log('listingsData', listingsData)
+  }, [messages, contractAddress])
 
   return (
     <div className="x-6 mx-auto max-w-7xl md:pt-24 lg:px-8 lg:pt-24">
@@ -172,7 +109,7 @@ export default function Listings() {
               <img
                 className="mx-auto h-32 w-32 flex-shrink-0 object-cover"
                 src={
-                  listing.photoURL ||
+                  listing.photo ||
                   'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60'
                 }
                 alt="Profile"
@@ -204,7 +141,7 @@ export default function Listings() {
               <div className="-mt-px flex divide-x divide-gray-200">
                 <div className="flex w-0 flex-1 hover:bg-primary/10">
                   <a
-                    href={`${listing.contractAddress}`}
+                    href={`${listing._id}`}
                     className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-300"
                   >
                     <EnvelopeIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -213,7 +150,7 @@ export default function Listings() {
                 </div>
                 <div className="-ml-px flex w-0 flex-1 hover:bg-primary/10">
                   <a
-                    href={`${listing.contractAddress}`}
+                    href={`${listing._id}`}
                     className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-300"
                   >
                     PURCHASE

@@ -14,6 +14,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { env } from '@/config/environment'
 import { cn } from '@/utils/cn'
 
+import LOGO from './../../public/icons/favicon.ico'
 import './globals.css'
 import ClientProviders from './providers'
 
@@ -38,6 +39,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en" className={cn('dark', GeistSans.variable, GeistMono.variable)}>
+      <head>
+        {/* Add favicon */}
+        <link rel="icon" href="/icons/favicon.png" />
+      </head>
       <body>
         <header className="z-1 absolute inset-x-0 top-0">
           <nav
