@@ -1,19 +1,16 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 import { ContractIds } from '@/deployments/deployments'
 import { COMPANY, WEB3_FUNCTIONALITY } from '@/marketplaceVariables'
 import { PhotoIcon } from '@heroicons/react/20/solid'
-import {
-  contractQuery,
-  decodeOutput,
-  useInkathon,
-  useRegisteredContract,
-} from '@scio-labs/use-inkathon'
+import { checkAddress } from '@polkadot/util-crypto'
+import { useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
 
 import useStore from '@/app/store/store'
+import createListing from '@/components/Types/createListing'
 
 export default function Form() {
   const searchParams = useSearchParams() || new URLSearchParams()
@@ -29,6 +26,7 @@ export default function Form() {
 function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
   // Polkadot Start
   const { api } = useInkathon()
+  const router = useRouter()
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
   // Polkadot End
@@ -55,11 +53,28 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     event.preventDefault()
     setIsSubmitting(true)
 
+    const timeCreated = new Date().toISOString()
+    // Check address
+
     const completeData = {
       ...formData,
+      timeCreated,
+      serviceType: formData.serviceType,
     }
 
     console.log('Completed Listing Data', completeData)
+
+    try {
+      const id = await createListing(completeData)
+      console.log('Listing created with id', id)
+      setTimeout(() => {
+        router.push(`/create/success/${id}`)
+      }, 2000)
+    } catch (error) {
+      console.error('Error creating listing', error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const mergeLocations = (locations: string[]) => {
@@ -69,13 +84,13 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
   const handleLocationChange = (field: string, value: string) => {
     if (field === 'city') {
       setCity(value)
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         location: mergeLocations([value, state]),
       }))
     } else if (field === 'state') {
       setState(value)
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         location: mergeLocations([city, value]),
       }))

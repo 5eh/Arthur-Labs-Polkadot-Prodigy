@@ -1,5 +1,5 @@
 [package]
-name = "commerce"
+name = "delivery"
 version = "0.0.1"
 authors = ["Watson <wlewisrodriguez@gmail.com>"]
 edition = "2021"
