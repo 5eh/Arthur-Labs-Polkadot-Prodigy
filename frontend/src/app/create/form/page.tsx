@@ -6,33 +6,31 @@ import React, { useEffect, useState } from 'react'
 import { ContractIds } from '@/deployments/deployments'
 import { COMPANY, WEB3_FUNCTIONALITY } from '@/marketplaceVariables'
 import { PhotoIcon } from '@heroicons/react/20/solid'
-import { checkAddress } from '@polkadot/util-crypto'
 import { useInkathon, useRegisteredContract } from '@scio-labs/use-inkathon'
+import { Toaster, toast } from 'react-hot-toast'
 
 import useStore from '@/app/store/store'
 import createListing from '@/components/Types/createListing'
 
 export default function Form() {
-  const searchParams = useSearchParams() || new URLSearchParams()
-  const serviceTitle = searchParams.get('title')
+  const searchParams = useSearchParams()
+  const serviceTitle = searchParams.get('title') || '' // Ensure serviceTitle is a string
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
+      <Toaster />
       <FormInput serviceTitle={serviceTitle} />
     </div>
   )
 }
 
-function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
-  // Polkadot Start
+function FormInput({ serviceTitle }: { serviceTitle: string }) {
+  // Ensure serviceTitle is a string
   const { api } = useInkathon()
   const router = useRouter()
   const { contract, address: contractAddress } = useRegisteredContract(ContractIds.Commerce)
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>(false)
-  // Polkadot End
   const { formData, setFormData, resetFormData } = useStore()
-  const [city, setCity] = useState('')
-  const [state, setState] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -44,7 +42,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
       price: '',
       includedFeatureOne: '',
       includedFeatureTwo: '',
-      serviceType: serviceTitle || 'custom',
+      serviceType: serviceTitle,
       location: '',
     })
   }, [serviceTitle, resetFormData])
@@ -54,7 +52,6 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     setIsSubmitting(true)
 
     const timeCreated = new Date().toISOString()
-    // Check address
 
     const completeData = {
       ...formData,
@@ -67,33 +64,14 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
     try {
       const id = await createListing(completeData)
       console.log('Listing created with id', id)
+      toast.success('Listing Successful')
       setTimeout(() => {
-        router.push(`/create/success/${id}`)
+        router.push('/explore')
       }, 2000)
     } catch (error) {
       console.error('Error creating listing', error)
     } finally {
       setIsSubmitting(false)
-    }
-  }
-
-  const mergeLocations = (locations: string[]) => {
-    return locations.join(', ')
-  }
-
-  const handleLocationChange = (field: string, value: string) => {
-    if (field === 'city') {
-      setCity(value)
-      setFormData((prevData: any) => ({
-        ...prevData,
-        location: mergeLocations([value, state]),
-      }))
-    } else if (field === 'state') {
-      setState(value)
-      setFormData((prevData: any) => ({
-        ...prevData,
-        location: mergeLocations([city, value]),
-      }))
     }
   }
 
@@ -111,14 +89,14 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
               </label>
               <div className="mt-2">
                 <input
-                  type="title"
+                  type="text"
                   name="title"
                   id="title"
                   autoComplete="title"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="Elegant Pink Dress with polkadots"
                   value={formData.title}
-                  onChange={(event) => setFormData('title', event.target.value)}
+                  onChange={(event) => setFormData({ ...formData, title: event.target.value })}
                 />
               </div>
             </div>
@@ -137,7 +115,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                 className="w-full border border-gray-200/20 bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:text-gray-300"
                 placeholder="Super cool information about this elegant, if not enchanting dress."
                 value={formData.description}
-                onChange={(event) => setFormData('description', event.target.value)}
+                onChange={(event) => setFormData({ ...formData, description: event.target.value })}
               />
             </div>
             <div className="col-span-full">
@@ -181,7 +159,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   placeholder="7.2 DOT"
                   value={formData.price}
-                  onChange={(event) => setFormData('price', event.target.value)}
+                  onChange={(event) => setFormData({ ...formData, price: event.target.value })}
                 />
               </div>
               <span> In DOT </span>
@@ -202,7 +180,9 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   placeholder="Soft fabric, easy to wash"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.includedFeatureOne}
-                  onChange={(event) => setFormData('includedFeatureOne', event.target.value)}
+                  onChange={(event) =>
+                    setFormData({ ...formData, includedFeatureOne: event.target.value })
+                  }
                 />
               </div>
             </div>
@@ -211,7 +191,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
 
             <div className="sm:col-span-3">
               <label
-                htmlFor="last-name"
+                htmlFor="includedFeatureTwo"
                 className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
               >
                 INCLUDED FEATURE 2
@@ -224,7 +204,9 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   placeholder="Elegant design, perfect for parties"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
                   value={formData.includedFeatureTwo}
-                  onChange={(event) => setFormData('includedFeatureTwo', event.target.value)}
+                  onChange={(event) =>
+                    setFormData({ ...formData, includedFeatureTwo: event.target.value })
+                  }
                 />
               </div>
             </div>
@@ -238,7 +220,7 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                 htmlFor="city"
                 className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
               >
-                CITY
+                CITY / STATE
               </label>
               <div className="mt-2">
                 <input
@@ -248,29 +230,8 @@ function FormInput({ serviceTitle }: { serviceTitle: string | null }) {
                   placeholder="Austin"
                   autoComplete="address-level2"
                   className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
-                  value={city}
-                  onChange={(e) => handleLocationChange('city', e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="sm:col-span-2">
-              <label
-                htmlFor="region"
-                className="block text-sm font-medium leading-6 text-gray-900 dark:text-white"
-              >
-                STATE / PROVINCE
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="state"
-                  id="state"
-                  autoComplete="address-level1"
-                  placeholder="Texas"
-                  className="w-full border-b border-gray-900  bg-gray-500/20 px-3 py-2 text-left text-sm leading-6 text-gray-800 hover:border-primary/60 focus:border-primary/40 focus:bg-gray-700/20 focus:outline-none dark:border-gray-200/20 dark:text-gray-300"
-                  value={state}
-                  onChange={(e) => handleLocationChange('state', e.target.value)}
+                  value={formData.location}
+                  onChange={(event) => setFormData({ ...formData, location: event.target.value })}
                 />
               </div>
             </div>
